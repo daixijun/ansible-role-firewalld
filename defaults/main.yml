@@ -1,0 +1,4 @@
+---
+# defaults file for daixijun.firewalld
+firewalld_disabled: true
+firewalld_rules: []

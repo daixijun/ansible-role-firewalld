@@ -1,0 +1,31 @@
+---
+# tasks file for daixijun.firewalld
+- name: 安装firewalld
+  yum:
+    name: firewalld
+    state: present
+
+- name: 关闭firewalld服务
+  systemd:
+    name: firewalld
+    state: stopped
+    enabled: false
+  when: firewalld_disabled
+
+- name: 添加规则
+  firewalld:
+    state: "{{ item.state | default(omit) }}"
+    zone: "{{ item.zone | default(omit) }}"
+    service: "{{ item.service | default(omit) }}"
+    masquerade: "{{ item.service | default(omit) }}"
+    immediate: "{{ item.immediate | default(omit) }}"
+    source: "{{ item.source | default(omit) }}"
+    permanent: "{{ item.permanent | default(omit) }}"
+    timeout: "{{ item.timeout | default(omit) }}"
+    interface: "{{ item.interface | default(omit) }}"
+    port: "{{ item.port | default(omit) }}"
+    rich_rule: "{{ item.rich_rule | default(omit) }}"
+  loop: "{{ firewalld_rules }}"
+  when:
+    - not firewalld_disabled
+    - firewalld_rules|lenght > 0
