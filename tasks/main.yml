@@ -1,18 +1,18 @@
 ---
 # tasks file for daixijun.firewalld
-- name: 安装firewalld
+- name: Install firewalld package
   yum:
     name: firewalld
     state: present
 
-- name: 关闭firewalld服务
+- name: Disable firewalld service
   systemd:
     name: firewalld
     state: stopped
     enabled: false
   when: firewalld_disabled
 
-- name: 添加规则
+- name: Add firewall rules if need
   firewalld:
     state: "{{ item.state | default(omit) }}"
     zone: "{{ item.zone | default(omit) }}"
