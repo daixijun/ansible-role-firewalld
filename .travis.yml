@@ -13,6 +13,7 @@ before_script:
 
 install:
   - pip install ansible molecule docker
+  - pip install --upgrade testinfra
 
 script:
   - molecule test
