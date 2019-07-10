@@ -10,7 +10,7 @@
     name: firewalld
     state: stopped
     enabled: false
-  when: firewalld_disabled
+  when: firewalld_disabled|bool
 
 - name: Add firewall rules if need
   firewalld:
