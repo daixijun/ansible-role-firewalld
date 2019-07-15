@@ -5,7 +5,13 @@
     name: firewalld
     state: present
 
-- name: Disable firewalld service
+- name: Ensure iptables disabled
+  systemd:
+    name: iptables
+    state: stopped
+    enabled: false
+
+- name: Ensure firewalld state
   systemd:
     name: firewalld
     state: stopped
