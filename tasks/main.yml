@@ -4,19 +4,25 @@
   yum:
     name: firewalld
     state: present
+  when: not firewalld_disabled
+  register: _firewalld_install_status
 
 - name: Ensure iptables disabled
   systemd:
     name: iptables
     state: stopped
     enabled: false
+  when:
+    - ansible_virtualization_type != "docker"
 
 - name: Ensure firewalld state
   systemd:
     name: firewalld
     state: stopped
     enabled: false
-  when: firewalld_disabled|bool
+  when:
+    - firewalld_disabled|bool
+    - _firewalld_install_status is not skipped
 
 - name: Add firewall rules if need
   firewalld:
